@@ -20,8 +20,12 @@ public class EarthPath : MonoBehaviour
     static int time = 0;
     static int followers = 0;
     static int money = 0;
+    static int impact = 0;
     static int XXXcounter = 0;
     static int XXXscore = 0;
+    static int lobbyScore = 0;
+    static int volScore = 0;
+    static int socialScore = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +46,7 @@ public class EarthPath : MonoBehaviour
         counter = counter + value;
         Debug.Log("value: " + value);
         Debug.Log("counter: " + counter);
-        switch(counter)
+        switch (counter)
         {
             case 0:
                 textfield.text = "What do you want to do?";
@@ -80,7 +84,7 @@ public class EarthPath : MonoBehaviour
             case 2: //Talk to XXX lvl 1
             case 501:
             case 502:
-            case 503: 
+            case 503:
                 int boo = talkToXXX(value);
                 if (boo == -1) // not finished
                 {
@@ -109,6 +113,32 @@ public class EarthPath : MonoBehaviour
                     }
                 }
                 break;
+            case 3: // Social
+                social();
+                break;
+            case 4: // Lobby
+                lobby();
+                break;
+            case 5: // Volunteer
+                volunteer();
+                break;
+            case 6:
+                if (time > 11)
+                {
+                    textfield.text = "Oh no! Your effects took too long and the Earth is no longer habitable.\n" +
+                        "Better luck next time!";
+                    centerT.text = "End Game";
+                } else { 
+                    counter = 3;
+                    textfield.text = "What area would you like to work on?";
+                    centerB.gameObject.SetActive(true);
+                    leftB.gameObject.SetActive(true);
+                    rightB.gameObject.SetActive(true);
+                    centerT.text = "Social";
+                    rightT.text = "Volunteer";
+                    leftT.text = "Lobby";
+                }
+                break;
             default:
                 textfield.text = "ERROR, EarthPath, press(), default in switch";
                 break;
@@ -116,11 +146,53 @@ public class EarthPath : MonoBehaviour
 
     }
 
+    void social()
+    {
+        centerB.gameObject.SetActive(true);
+        leftB.gameObject.SetActive(false);
+        rightB.gameObject.SetActive(false);
+        centerT.text = "Next";
+        textfield.text = "You make a change.org petition.\nIt gets 100 signatures!";
+        time++;
+        followers = followers + 100;
+        socialScore++;
+        counter = 6;
+        updateStats();
+    }
+
+    void lobby()
+    {
+        centerB.gameObject.SetActive(true);
+        leftB.gameObject.SetActive(false);
+        rightB.gameObject.SetActive(false);
+        centerT.text = "Next";
+        textfield.text = "You write an article about pollution caused by corporations.\nIt gets the attention of multiple companies who donate money to your cause.";
+        time++;
+        money = money + 5;
+        lobbyScore++;
+        counter = 6;
+        updateStats();
+    }
+
+    void volunteer()
+    {
+        centerB.gameObject.SetActive(true);
+        leftB.gameObject.SetActive(false);
+        rightB.gameObject.SetActive(false);
+        centerT.text = "Next";
+        textfield.text = "You organize an event to plant trees in your neigborhood.";
+        time++;
+        impact = impact + 5;
+        volScore++;
+        counter = 6;
+        updateStats();
+    }
+
     void updateStats()
     {
         stats.text = "Statistics\n--------------------\n" +
             "Time passed: " + time + " months\nFollowers: " + followers
-            + "\nMoney: $" + money;
+            + "\nMoney: $" + money + "k\nImpact: " + impact + "%";
     }
     
     int talkToXXX(int value)

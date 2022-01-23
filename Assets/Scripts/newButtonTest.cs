@@ -17,6 +17,10 @@ public class newButtonTest : MonoBehaviour
     public Button researchB;
     public Button XXXB;
     public Text stats;
+    public Image background;
+    public Image labImage;
+    public Image spaceImage;
+    public Image whiteImage;
 
     void Start()
     {
@@ -28,6 +32,9 @@ public class newButtonTest : MonoBehaviour
         XXXB.gameObject.SetActive(false);
         researchB.gameObject.SetActive(false);
         stats.gameObject.SetActive(false);
+        labImage.gameObject.SetActive(false);
+        spaceImage.gameObject.SetActive(false);
+        whiteImage.gameObject.SetActive(false);
     }
 
     public void setTest(string text)
@@ -54,6 +61,11 @@ public class newButtonTest : MonoBehaviour
                 startB.gameObject.SetActive(false);
                 goodB.gameObject.SetActive(true);
                 badB.gameObject.SetActive(true);
+
+                background.sprite = labImage.sprite;
+                whiteImage.gameObject.SetActive(true);
+                textfield.color = new Color(0, 0, 0, 255);
+
                 setTest("You: I want to see if I can save this world.\n" +
                     "Scientist: I don't think we can save this world. I'm going to build a ship and find a new planet.");
                 break;
